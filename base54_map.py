@@ -1,10 +1,11 @@
 # Map関数
+# サンプル(lambda式)
 list_a = list(range(1, 6))
 map_a = map(lambda x: x * 2, list_a)
 for x in map_a:
     print(x)
 
-# サンプル
+# サンプル(lambda式)
 man = {"name": "shogo", "age": "32", "height": "164"}
 # for key in man:
 #     print(key)
