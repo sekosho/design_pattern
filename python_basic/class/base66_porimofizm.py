@@ -1,13 +1,13 @@
 # ポリモーフィズム
 
-from abc import ABCMeta, abstractclassmethod
+from abc import ABCMeta, abstractmethod
 
 
 class Human(metaclass=ABCMeta):
     def __init__(self, name) -> None:
         self.name = name
 
-    @abstractclassmethod
+    @abstractmethod
     def say_something(self):
         pass
 
