@@ -1,5 +1,6 @@
 # open_closed
 from abc import ABCMeta, abstractmethod
+from itertools import combinations
 
 
 class UserInfo:
@@ -39,8 +40,23 @@ class Comparation(metaclass=ABCMeta):
 
 
 class AndComparation(Comparation):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, *args) -> None:
+        self.comparations = args  # 複数のComarationサブクラスオブジェクトのタプル
+
+    def is_equal(self, other):
+        return all(
+            map(lambda comparation: comparation.is_equal(other), self.comparations)
+        )
+
+
+class OrComparation(Comparation):
+    def __init__(self, *args) -> None:
+        self.comparations = args  # 複数のComarationサブクラスオブジェクトのタプル
+
+    def is_equal(self, other):
+        return any(
+            map(lambda comparation: comparation.is_equal(other), self.comparations)
+        )
 
 
 class Filter(metaclass=ABCMeta):
@@ -82,7 +98,18 @@ user_list = [taro, jiro, john]
 # for man in UserInfoFilter.filter_users_nationality(user_list, "Japan"):
 #     print(man)
 job_comparation = JobNameComparation("salary man")
+nationality_comparation = NationalityComparation("Japan")
 user_filter = UserInfoFilter()
-filtered_users = user_filter.filter(job_comparation, user_list)
-for user in filtered_users:
+# filtered_users = user_filter.filter(job_comparation, user_list)
+# for user in filtered_users:
+#     print(user)
+
+job_and_nationality_comaration = job_comparation & nationality_comparation
+and_filtered_users = user_filter.filter(job_and_nationality_comaration, user_list)
+for user in and_filtered_users:
+    print(user)
+
+job_or_nationality_comparation = job_comparation | nationality_comparation
+or_filtered_users = user_filter.filter(job_or_nationality_comparation, user_list)
+for user in or_filtered_users:
     print(user)
