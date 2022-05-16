@@ -59,12 +59,6 @@ class OrComparation(Comparation):
         )
 
 
-class Filter(metaclass=ABCMeta):
-    @abstractmethod
-    def filter(self, comparation, items):
-        pass
-
-
 class JobNameComparation(Comparation):
     def __init__(self, job_name) -> None:
         self.job_name = job_name
@@ -79,6 +73,12 @@ class NationalityComparation(Comparation):
 
     def is_equal(self, other):
         return self.nationality == other.nationality
+
+
+class Filter(metaclass=ABCMeta):
+    @abstractmethod
+    def filter(self, comparation, items):
+        pass
 
 
 class UserInfoFilter(Filter):
